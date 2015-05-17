@@ -4,5 +4,9 @@
 </head>
    
 <body>
-Sorry, s gitom ebala.
+{% load problem_filter %}
+{% for problem in problems %}
+    #{{problem|_get:'pid'}} - {{problem|_get:'submits'}} submits.
+    <br>
+{% endfor %}
 </body>
