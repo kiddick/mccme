@@ -77,4 +77,4 @@ def show_me(request):
         })
 
 def user_stats(request):
-    return render('user_stats')
+    return render(request, 'user_stats')
