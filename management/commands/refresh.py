@@ -38,6 +38,9 @@ class Command(BaseCommand):
         stats = dict()
         for r in loadme.load(urlrangex, 75):
             stats[int(r[1])] = int(r[0].split()[2][:-2])
+        print len(stats)
+        with open(os.path.join('/home/django/django_project/mccme/management/commands', 'out.txt'), 'w') as sto:
+            sto.write(str(stats))
 
         problems_in_db = Problem.objects.all()
         for pid, submits in stats.iteritems():
