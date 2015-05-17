@@ -6,5 +6,6 @@ urlpatterns = patterns(
 
     url(r'^$', views.test),
     url(r'^action/', views.action),
-    url(r'^show_me/', views.show_me)
+    url(r'^show_me/', views.show_me),
+    url(r'^user/', views.user_stats)
 )

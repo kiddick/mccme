@@ -75,3 +75,6 @@ def show_me(request):
     return render(request, 'mccme/problems.html', {
         'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)
         })
+
+def user_stats(request):
+    return render('user_stats')
