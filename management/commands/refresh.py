@@ -7,4 +7,6 @@ class Command(BaseCommand):
     #     parser.add_argument('poll_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        print 'hello command!'
+        with open(os.path.join('/home/django/django_project/mccme','plist.txt'), 'r') as plist:
+            content = plist.readlines()
+        print len(content)
