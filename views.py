@@ -86,8 +86,8 @@ def user_stats(request, uid):
     cuser = users_in_db.filter(uid=uid)
     if cuser:
         # cu.solved_problems.all().delete()
-        cuser[0].solved_problems.all().clear()
-        cuser[0].unsolved_problems.all().clear()
+        cuser[0].solved_problems.clear()
+        cuser[0].unsolved_problems.clear()
         for ep in solved:
             cproblem = Problem.objects.all().filter(pid=ep)[0]
             cuser[0].solved_problems.add(cproblem)
