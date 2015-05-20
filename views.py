@@ -77,6 +77,15 @@ def show_me(request):
 
 def user_stats(request, uid):
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+    users_in_db = UserProfile.objects.all()
+    cuser = users_in_db.filter(uid=uid)
+    if cuser:
+        cuser[0].solved_problems = data_stats[0]
+        cuser[0].unsolved_problems = data_stats[1]
+        cuser[0].save()
+    else:
+        cuser = UserProfile(uid=uid, solved_problems=data_stats[0], unsolved_problems=data_stats[1])
+        cuser.save()
     return HttpResponse('user_stats: ' + uid + '\nsuccess: ' + str(data_stats[0]))
 
 #def add_user(request):
