@@ -85,15 +85,16 @@ def user_stats(request, uid):
     users_in_db = UserProfile.objects.all()
     cuser = users_in_db.filter(uid=uid)
     if cuser:
-        # cu.solved_problems.all().delete()
-        cuser[0].solved_problems.clear()
-        cuser[0].unsolved_problems.clear()
+        # cu.solved_problems.all().delete
+        cuser = cuser[0]
+        cuser.solved_problems.clear()
+        cuser.unsolved_problems.clear()
         for ep in solved:
             cproblem = Problem.objects.all().filter(pid=ep)[0]
-            cuser[0].solved_problems.add(cproblem)
+            cuser.solved_problems.add(cproblem)
         for ep in unsolved:
             cproblem = Problem.objects.all().filter(pid=ep)[0]
-            cuser[0].unsolved_problems.add(cproblem)
+            cuser.unsolved_problems.add(cproblem)
         cuser[0].save()
     else:
         cuser = UserProfile(uid=uid)
