@@ -104,7 +104,10 @@ def user_stats(request, uid):
         # cuser.save()
         # cuser = UserProfile(uid=uid, solved_problems=data_stats[0], unsolved_problems=data_stats[1])
         cuser.save()
-    return HttpResponse('user_stats: ' + uid + '\nsuccess: ' + str(data_stats[0]))
+    # return HttpResponse('user_stats: ' + uid + '\nsuccess: ' + str(data_stats[0]))
+    return render(request, 'mccme/problems.html', {
+        'problems_solved': cuser.solved_problems.all(), 'problems_unsolved': cuser.unsolved_problems.all()
+        })
 
 #def add_user(request):
 # TO BE DONE LATER    

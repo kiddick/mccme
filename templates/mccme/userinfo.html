@@ -1,0 +1,16 @@
+<!doctype HTML>
+<head>
+    <title>QQQ</title>
+</head>
+   
+<body>
+{% load problem_filter %}
+{% for problem in problems_solved %}
+    #{{problem|_get:'pid'}} - {{problem|_get:'submits'}} submits.
+    <br>
+{% endfor %}
+{% for problem in problems_unsolved %}
+    #{{problem|_get:'pid'}} - {{problem|_get:'submits'}} submits.
+    <br>
+{% endfor %}
+</body>
