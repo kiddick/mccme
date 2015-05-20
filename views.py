@@ -77,14 +77,31 @@ def show_me(request):
 
 def user_stats(request, uid):
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+    solved = map(int, data_stats[0])
+    unsolved = map(int, data_stats[1])
     users_in_db = UserProfile.objects.all()
     cuser = users_in_db.filter(uid=uid)
     if cuser:
-        cuser[0].solved_problems = data_stats[0]
-        cuser[0].unsolved_problems = data_stats[1]
+        # cu.solved_problems.all().delete()
+        cuser[0].solved_problems.all().delete()
+        cuser[0].unsolved_problems.all().delete()
+        for ep in solved:
+            cproblem = Problem.objects.all().filter(pid=ep)[0]
+            cuser[0].solved_problems.add(cproblem)
+        for ep in unsolved:
+            cproblem = Problem.objects.all().filter(pid=ep)[0]
+            cuser[0].unsolved_problems.add(cproblem)
         cuser[0].save()
     else:
-        cuser = UserProfile(uid=uid, solved_problems=data_stats[0], unsolved_problems=data_stats[1])
+        cuser = UserProfile(uid=uid)
+        for ep in solved:
+            cproblem = Problem.objects.all().filter(pid=ep)[0]
+            cuser.solved_problems.add(cproblem)
+        for ep in unsolved:
+            cproblem = Problem.objects.all().filter(pid=ep)[0]
+            cuser.unsolved_problems.add(cproblem)
+        # cuser.save()
+        # cuser = UserProfile(uid=uid, solved_problems=data_stats[0], unsolved_problems=data_stats[1])
         cuser.save()
     return HttpResponse('user_stats: ' + uid + '\nsuccess: ' + str(data_stats[0]))
 
