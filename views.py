@@ -49,7 +49,10 @@ def action(request):
                 problems[0].submits = submits
                 problems[0].save()
         else:
-            problem = Problem(pid=pid, submits=submits)
+            # problem = Problem(pid=pid, submits=submits)
+            problem = Problem()
+            problem.pid = pid
+            problem.submits = submits
             problem.save()
 
 
