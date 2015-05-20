@@ -94,6 +94,7 @@ def user_stats(request, uid):
         cuser[0].save()
     else:
         cuser = UserProfile(uid=uid)
+        cuser.save()
         for ep in solved:
             cproblem = Problem.objects.all().filter(pid=ep)[0]
             cuser.solved_problems.add(cproblem)
