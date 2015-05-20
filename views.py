@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import operator
 import os
 import loadme
-from mccme.models import Problem
+from mccme.models import Problem, UserProfile
 
 #from pre_test import *
 
@@ -48,9 +48,7 @@ def action(request):
                 problems[0].submits = submits
                 problems[0].save()
         else:
-            problem = Problem()
-            problem.pid = pid
-            problem.submits = submits
+            problem = Problem(pid=pid, submits=submits)
             problem.save()
 
 
@@ -76,5 +74,8 @@ def show_me(request):
         'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)
         })
 
-def user_stats(request):
-    return HttpResponse('user_stats')
+def user_stats(request, uid):
+    return HttpResponse('user_stats: ' + uid)
+
+#def add_user(request):
+# TO BE DONE LATER    
