@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import operator
 import os
 import loadme
+import statsloaderx
 from mccme.models import Problem, UserProfile
 
 #from pre_test import *
@@ -75,7 +76,8 @@ def show_me(request):
         })
 
 def user_stats(request, uid):
-    return HttpResponse('user_stats: ' + uid)
+    data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+    return HttpResponse('user_stats: ' + uid + '\nsuccess: ' + str(data_stats[0]))
 
 #def add_user(request):
 # TO BE DONE LATER    
