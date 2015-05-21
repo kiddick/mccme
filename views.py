@@ -162,7 +162,7 @@ def show_user(request, uid):
                         })
 
 def multi_stats(request, uid):
-    page = request.GET.get('page')
+    page = int(request.GET.get('page'))
     # return HttpResponse(str(uid) + ' - ' + str(page))
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
     solved = map(int, data_stats[0])
@@ -200,7 +200,7 @@ def multi_stats(request, uid):
     submitted_by_smb = len([1 for p in Problem.objects.all() if p.submits > 0])
     return render(request, 'mccme/user_progress.html', {
                         'user': uid,
-                        'problems': all_problems[(int(page)-1) * 100:int(page) * 100],
+                        'problems': all_problems[((int(page)-1) * 100):(int(page) * 100)],
                         'solved_count': solved_count,
                         'total_count': total_count,
                         'trying_count': trying_count,
