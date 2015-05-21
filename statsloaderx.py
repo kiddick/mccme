@@ -202,7 +202,7 @@ def get_user_success_info(_uid, _num_threads, _pc):
     in_progress = [pn for pn in ds.keys() if not ds[pn][1]]
     # print solved
     # print in_progress
-    return solved, in_progress
+    return solved, in_progress, tp
 
 
 # for u in xrange(100, 200):
