@@ -163,6 +163,7 @@ def show_user(request, uid):
 
 def multi_stats(request, uid):
     page = int(request.GET.get('page'))
+    count = 50
     # page = 1
     # return HttpResponse(str(uid) + ' - ' + str(page))
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
@@ -202,7 +203,9 @@ def multi_stats(request, uid):
     return render(request, 'mccme/user_progress.html', {
                         'user': uid,
                         # 'problems': all_problems[((int(page)-1) * 100):(int(page) * 100)],
-                        'problems': {k: all_problems[k] for k in all_problems.keys()[((int(page)-1) * 100):(int(page) * 100)]},
+                        # 'problems': {k: all_problems[k] for k in all_problems.keys()[((int(page)-1) * 100):(int(page) * 100)]},
+                        # OrderedDict(xspamher.items()[1:3])
+                        'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
                         'total_count': total_count,
