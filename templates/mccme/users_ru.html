@@ -22,12 +22,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-           {% for user in users %}
+        {% for user in users %}
+           <tr>
                 <td>{{user|_get:'uid'}}</td>
                 <td><a href="http://188.166.120.173/mccme/uidx/{{user|_get:'uid'}}/?page=1">LINK</a></td>
-            {% endfor %}
-        </tr>
+           </tr>
+        {% endfor %}
     </tbody>
 </table>
 </body>
