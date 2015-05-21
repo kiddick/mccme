@@ -162,4 +162,47 @@ def show_user(request, uid):
                         })
 
 def multi_stats(request, uid, page):
-    return HttpResponse(str(uid) + ' - ' + str(page))
+    # return HttpResponse(str(uid) + ' - ' + str(page))
+    data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+    solved = map(int, data_stats[0])
+    unsolved = map(int, data_stats[1])
+    users_in_db = UserProfile.objects.all()
+    cuser = users_in_db.filter(uid=uid)
+    if cuser:
+        cuser = cuser[0]
+        cuser.solved_problems.clear()
+        cuser.unsolved_problems.clear()
+        for ep in solved:
+            cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+        for ep in unsolved:
+            cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+        cuser.save()
+    else:
+        cuser = UserProfile(uid=uid)
+        cuser.save()
+        for ep in solved:
+            cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+        for ep in unsolved:
+            cuser.unsolver_problems.add(Problem.objects.all().filter(pid=ep)[0])
+        cuser.save()
+    all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
+    for problem in cuser.solved_problems.all():
+        if problem in all_problems.keys():
+            all_problems[problem] = 'solved'
+    for problem in cuser.unsolved_problems.all():
+        if problem in all_problems.keys():
+            all_problems[problem] = 'in_progress'
+    all_problems = OrderedDict(sorted(all_problems.items(), key=lambda x: x[0].submits, reverse=True))
+    total_count = len(all_problems.keys())
+    solved_count = len(cuser.solved_problems.all())
+    trying_count = len(cuser.unsolved_problems.all())
+    submitted_by_smb = len([1 for p in Problem.objects.all() if p.submits > 0])
+    return render(request, 'mccme/user_progress.html', {
+                        'user': uid,
+                        'problems': all_problems[(int(page)-1) * 100:int(page) * 100],
+                        'solved_count': solved_count,
+                        'total_count': total_count,
+                        'trying_count': trying_count,
+                        'progress': '{0:.4f}'.format(float(solved_count)/total_count * 100),
+                        'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
+                        })
