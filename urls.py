@@ -11,7 +11,7 @@ urlpatterns = patterns(
     url(r'^uid/(?P<uid>\d+)/$', views.show_user),
     # url('^uidx/(?P<uid>\d+)/?page=(?P<page>\d+)/$', views.multi_stats)
     url('^uidx/$', views.ex_users),
-    url('^uidx/(?P<uid>\d+)/$', views.multi_stats)
+    url('^uidx/$', views.multi_stats)
 #   http://www.example.com/myapp/?page=3
 
 
