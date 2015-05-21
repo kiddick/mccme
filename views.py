@@ -219,10 +219,10 @@ def multi_stats(request, uid):
                         'problems_solved': cuser.solved_problems.all(),
                         'problems_unsolved': cuser.unsolved_problems.all(),
                         # 'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
-                        'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True),
+                        'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)[((int(page)-1) * count):(int(page) * count)],
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
-                        'total_count': -1,
+                        'total_count': dtotal_count,
                         'trying_count': trying_count,
                         'progress': '{0:.4f}'.format(float(solved_count)/dtotal_count * 100),
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
