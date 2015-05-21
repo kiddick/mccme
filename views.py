@@ -198,27 +198,31 @@ def multi_stats(request, uid):
         for ep in unsolved:
             cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
         cuser.save()
-    all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
-    for problem in cuser.solved_problems.all():
-        if problem in all_problems.keys():
-            all_problems[problem] = 'solved'
-    for problem in cuser.unsolved_problems.all():
-        if problem in all_problems.keys():
-            all_problems[problem] = 'in_progress'
-    all_problems = OrderedDict(sorted(all_problems.items(), key=lambda x: x[0].submits, reverse=True))
-    dtotal_count = len(all_problems.keys())
+    # all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
+    # for problem in cuser.solved_problems.all():
+    #     if problem in all_problems.keys():
+    #         all_problems[problem] = 'solved'
+    # for problem in cuser.unsolved_problems.all():
+    #     if problem in all_problems.keys():
+    #         all_problems[problem] = 'in_progress'
+    # all_problems = OrderedDict(sorted(all_problems.items(), key=lambda x: x[0].submits, reverse=True))
+    # dtotal_count = len(all_problems.keys())
+    dtotal_count = len(Problem.objects.all())
     solved_count = len(cuser.solved_problems.all())
     trying_count = len(cuser.unsolved_problems.all())
     submitted_by_smb = len([1 for p in Problem.objects.all() if p.submits > 0])
-    return render(request, 'mccme/user_progress.html', {
+    return render(request, 'mccme/user_progress_ru.html', {
                         'user': uid,
                         # 'problems': all_problems[((int(page)-1) * 100):(int(page) * 100)],
                         # 'problems': {k: all_problems[k] for k in all_problems.keys()[((int(page)-1) * 100):(int(page) * 100)]},
                         # OrderedDict(xspamher.items()[1:3])
-                        'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
+                        'problems_solved': cuser.solved_problems.all(),
+                        'problems_unsolved': cuser.unsolved_problems.all(),
+                        # 'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
+                        'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True),
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
-                        'total_count': dtotal_count,
+                        'total_count': -1,
                         'trying_count': trying_count,
                         'progress': '{0:.4f}'.format(float(solved_count)/dtotal_count * 100),
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
