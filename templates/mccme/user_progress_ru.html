@@ -36,7 +36,7 @@ Tried but not solved: {{trying_count}}
        <tr class="success">
        {% elif problem in problems_unsolved %}
        <tr class="danger">
-       {% elif problem not in problems_unsolved + problems_solved %}
+       {% elif problem not in total_list %}
        <tr class = "warning">
        {% endif %}
             <th scope="row">{{problem|_get:'pid'}}</th>

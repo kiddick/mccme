@@ -220,6 +220,7 @@ def multi_stats(request, uid):
                         'problems_unsolved': cuser.unsolved_problems.all(),
                         # 'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
                         'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)[((int(page)-1) * count):(int(page) * count)],
+                        'total_list': cuser.solved_problems.all() + cuser.unsolved_problems.all(),
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
                         'total_count': dtotal_count,
