@@ -166,15 +166,20 @@ def multi_stats(request, uid):
     count = 50
     # page = 1
     # return HttpResponse(str(uid) + ' - ' + str(page))
-    data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
-    solved = map(int, data_stats[0])
-    unsolved = map(int, data_stats[1])
-    total_count = data_stats[2]
+    # tp = get_last_page(_uid, 1)
+    total_count = statsloaderx.get_last_page(uid, 1)
+    # data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+    # solved = map(int, data_stats[0])
+    # unsolved = map(int, data_stats[1])
+    # total_count = data_stats[2]
     users_in_db = UserProfile.objects.all()
     cuser = users_in_db.filter(uid=uid)
     if cuser:
         cuser = cuser[0]
         if cuser.tcount != total_count:
+            data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+            solved = map(int, data_stats[0])
+            unsolved = map(int, data_stats[1])
             cuser.solved_problems.clear()
             cuser.unsolved_problems.clear()
             for ep in solved:
@@ -183,6 +188,9 @@ def multi_stats(request, uid):
                 cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
             cuser.save()
     else:
+        data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
+        solved = map(int, data_stats[0])
+        unsolved = map(int, data_stats[1])
         cuser = UserProfile(uid=uid, tcount=total_count)
         cuser.save()
         for ep in solved:
