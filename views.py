@@ -160,3 +160,6 @@ def show_user(request, uid):
                         'progress': '{0:.4f}'.format(float(solved_count)/total_count * 100),
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
                         })
+
+def multi_stats(request, id, page):
+    return HttpResponse(str(id) + ' - ' + str(page))
