@@ -163,6 +163,7 @@ def show_user(request, uid):
 
 def multi_stats(request, uid):
     page = int(request.GET.get('page'))
+    page = 1
     # return HttpResponse(str(uid) + ' - ' + str(page))
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
     solved = map(int, data_stats[0])
