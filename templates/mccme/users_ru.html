@@ -18,6 +18,7 @@
     <thead>
         <tr>
             <th>Users</th>
+            <th>Name</th>
             <th>LINK</th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
         {% for user in users %}
            <tr>
                 <td>{{user|_get:'uid'}}</td>
+                <td>{{user|_get:'uname'}}</td>
                 <td><a href="http://188.166.120.173/mccme/uidx/{{user|_get:'uid'}}/?page=1">LINK</a></td>
            </tr>
         {% endfor %}
