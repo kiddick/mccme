@@ -169,19 +169,21 @@ def multi_stats(request, uid):
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
     solved = map(int, data_stats[0])
     unsolved = map(int, data_stats[1])
+    total_count = data_stats[2]
     users_in_db = UserProfile.objects.all()
     cuser = users_in_db.filter(uid=uid)
     if cuser:
         cuser = cuser[0]
-        cuser.solved_problems.clear()
-        cuser.unsolved_problems.clear()
-        for ep in solved:
-            cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
-        for ep in unsolved:
-            cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
-        cuser.save()
+        if cuser.tcount != total_count:
+            cuser.solved_problems.clear()
+            cuser.unsolved_problems.clear()
+            for ep in solved:
+                cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            for ep in unsolved:
+                cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            cuser.save()
     else:
-        cuser = UserProfile(uid=uid)
+        cuser = UserProfile(uid=uid, tcount=total_count)
         cuser.save()
         for ep in solved:
             cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
@@ -196,7 +198,7 @@ def multi_stats(request, uid):
         if problem in all_problems.keys():
             all_problems[problem] = 'in_progress'
     all_problems = OrderedDict(sorted(all_problems.items(), key=lambda x: x[0].submits, reverse=True))
-    total_count = len(all_problems.keys())
+    dtotal_count = len(all_problems.keys())
     solved_count = len(cuser.solved_problems.all())
     trying_count = len(cuser.unsolved_problems.all())
     submitted_by_smb = len([1 for p in Problem.objects.all() if p.submits > 0])
@@ -208,8 +210,8 @@ def multi_stats(request, uid):
                         'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
-                        'total_count': total_count,
+                        'total_count': dtotal_count,
                         'trying_count': trying_count,
-                        'progress': '{0:.4f}'.format(float(solved_count)/total_count * 100),
+                        'progress': '{0:.4f}'.format(float(solved_count)/dtotal_count * 100),
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
                         })

@@ -11,6 +11,7 @@ class UserProfile(models.Model):
     uid = models.IntegerField(default=0)
     solved_problems = models.ManyToManyField(Problem, related_name='solved_problems')
     unsolved_problems = models.ManyToManyField(Problem, related_name='unsolved_problems')
+    tcount = models.IntegerField(default=0)
     
     def __unicode__(self):
         return '%s' % self.uid
