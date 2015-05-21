@@ -137,7 +137,7 @@ def show_user(request, uid):
         for ep in solved:
             cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
         for ep in unsolved:
-            cuser.unsolver_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
         cuser.save()
     all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
     for problem in cuser.solved_problems.all():
@@ -188,7 +188,7 @@ def multi_stats(request, uid):
         for ep in solved:
             cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
         for ep in unsolved:
-            cuser.unsolver_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
         cuser.save()
     all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
     for problem in cuser.solved_problems.all():
