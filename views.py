@@ -161,7 +161,8 @@ def show_user(request, uid):
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
                         })
 
-def multi_stats(request, uid, page):
+def multi_stats(request, uid):
+    page = request.GET.get('page')
     # return HttpResponse(str(uid) + ' - ' + str(page))
     data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
     solved = map(int, data_stats[0])
