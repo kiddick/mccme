@@ -35,9 +35,9 @@ Tried but not solved: {{trying_count}}
        {% if problem in problems_solved %}
        <tr class="success">
        {% elif problem in problems_unsolved %}
-       <tr class="danger">
+       <tr class="warning">
        {% elif problem not in total_list %}
-       <tr class = "warning">
+       <tr class = "danger">
        {% endif %}
             <th scope="row">{{problem|_get:'pid'}}</th>
             <td>{{problem|_get:'submits'}}</td>
@@ -45,9 +45,9 @@ Tried but not solved: {{trying_count}}
             {% if problem in problems_solved %}
             OK
             {% elif problem in problems_unsolved %}
-            unsolved
-            {% else %}
             In progress
+            {% elif problem not in total_list %}
+            unsolved
             {% endif %}
             </td>
             <td><a href="http://informatics.mccme.ru/mod/statements/view3.php?chapterid={{problem|_get:'pid'}}">LINK</a><td>
