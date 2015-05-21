@@ -1,0 +1,59 @@
+<!doctype HTML>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <title>{{user}} info</title>
+</head>
+   
+<body>
+{% load problem_filter %}
+
+
+<h5>
+User: {{user}}<span class="glyphicon glyphicon-user" aria-hidden="true"></span><br>
+Solved: {{solved_count}} out of {{total_count}}<br>
+Solved: <mark>{{progress}}%</mark><br>
+Solved  {{progress_light}}% of problems that were ever submitted<br>
+Tried but not solved: {{trying_count}}
+</h5>
+<table class='table table-striped'>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Submits</th>
+            <th>Status</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+       <!--{% for problem, status in problems.iteritems %} -->
+       {% for problem in problems %}
+       {% if problem in problems_solved %}
+        <tr class="success">
+       {% elif problem in problems_unsolved %}
+       <tr class="danger">
+       {% else %}
+       <tr class = "warning">
+       {% endif %}
+            <th scope="row">{{problem|_get:'pid'}}</th>
+            <td>{{problem|_get:'submits'}}</td>
+            <td>
+            {% if problem in problems_solved %}
+            OK
+            {% elif problem in problems_unsolved %}
+            unsolved
+            {% else %}
+            In progress
+            {% endif %}
+            </td>
+            <td><a href="http://informatics.mccme.ru/mod/statements/view3.php?chapterid={{problem|_get:'pid'}}">LINK</a><td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>
