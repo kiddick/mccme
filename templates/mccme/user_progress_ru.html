@@ -21,6 +21,24 @@ Solved: <mark>{{progress}}%</mark><br>
 Solved  {{progress_light}}% of problems that were ever submitted<br>
 Tried but not solved: {{trying_count}}
 </h5>
+<hr>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if problems.has_previous %}
+            <a href="?page={{ problems.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ problems.number }} of {{ problems.paginator.num_pages }}.
+        </span>
+
+        {% if problems.has_next %}
+            <a href="?page={{ problems.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
 <table class='table table-striped'>
     <thead>
         <tr>

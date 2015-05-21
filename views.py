@@ -8,6 +8,7 @@ from itertools import chain
 import loadme
 import statsloaderx
 from mccme.models import Problem, UserProfile
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #from pre_test import *
 
@@ -212,6 +213,16 @@ def multi_stats(request, uid):
     solved_count = len(cuser.solved_problems.all())
     trying_count = len(cuser.unsolved_problems.all())
     submitted_by_smb = len([1 for p in Problem.objects.all() if p.submits > 0])
+
+    paginator = Paginator(sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True), 50)
+    try:
+        pproblems = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pproblems = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        pproblems = paginator.page(paginator.num_pages)
     return render(request, 'mccme/user_progress_ru.html', {
                         'user': uid,
                         # 'problems': all_problems[((int(page)-1) * 100):(int(page) * 100)],
@@ -220,8 +231,11 @@ def multi_stats(request, uid):
                         'problems_solved': cuser.solved_problems.all(),
                         'problems_unsolved': cuser.unsolved_problems.all(),
                         # 'problems': OrderedDict(all_problems.items()[((int(page)-1) * count):(int(page) * count)]),
-                        'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)[((int(page)-1) * count):(int(page) * count)],
+
+                        # 'problems': sorted(Problem.objects.all(), key=operator.attrgetter('submits'), reverse=True)[((int(page)-1) * count):(int(page) * count)],
+                        'problems': pproblems,
                         'total_list': list(chain(cuser.solved_problems.all(), cuser.unsolved_problems.all())),
+                        # 'pages': xrange(1, dtotal_count / 50 + 2),
                         # {k: bigdict[k] for k in ('l', 'm', 'n')}
                         'solved_count': solved_count,
                         'total_count': dtotal_count,
