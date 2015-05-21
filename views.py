@@ -243,3 +243,11 @@ def multi_stats(request, uid):
                         'progress': '{0:.4f}'.format(float(solved_count)/dtotal_count * 100),
                         'progress_light': '{0:.4f}'.format(float(solved_count)/submitted_by_smb * 100)
                         })
+
+
+def ex_users(request):
+    users = UserProfile.objects.all()
+
+    return render(request, 'mccme/user_progress_ru.html', {
+                  'users': users
+                    })
