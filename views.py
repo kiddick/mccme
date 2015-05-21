@@ -248,6 +248,6 @@ def multi_stats(request, uid):
 def ex_users(request):
     users = UserProfile.objects.all()
 
-    return render(request, 'mccme/user_progress_ru.html', {
+    return render(request, 'mccme/users_ru.html', {
                   'users': users
                     })
