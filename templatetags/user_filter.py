@@ -4,6 +4,6 @@ register = template.Library()
 
 def _get(value, arg):
     if arg == 'uid':
-        return value.pid
+        return value.uid
 
 register.filter('_get', _get)
