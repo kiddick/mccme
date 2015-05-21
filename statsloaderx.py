@@ -191,6 +191,23 @@ def get_dict_stats(_plist):
     return sdict
     # return [(p.num, p.status) for p in _plist]
 
+def get_user_name(_id):
+    url_range = []
+    target_url = 'http://informatics.mccme.ru/moodle/ajax/ajax.php?problem_id=0' + \
+        '&group_id=0' + \
+        '&user_id=' + str(_id) + \
+        '&lang_id=-1' + \
+        '&status_id=-1' + \
+        '&statement_id=0' + \
+        '&objectName=submits' + \
+        '&count=1' + \
+        '&with_comment=' + \
+        '&page=0' + \
+        '&action=getHTMLTable'
+    data = requests.get(target_url, headers={'User-Agent': 'Mozilla/5.0'})
+    # return int(re.findall(r'\d+', str(data.text))[0])
+    return MixParser(data.text).parse()[0].solver
+
 def get_user_success_info(_uid, _num_threads, _pc):
     tp = get_last_page(_uid, 1)
     # print 'total problems:', tp
@@ -212,5 +229,5 @@ def get_user_success_info(_uid, _num_threads, _pc):
 #print get_user_success_info(99669, 75, 100)
 # collect_user_info(8732, 75, 100)
 
-
+# print get_user_name(99669)
 #####################

@@ -247,6 +247,8 @@ def multi_stats(request, uid):
 
 def ex_users(request):
     users = UserProfile.objects.all()
+    for user in users:
+        users.uname = statsloaderx.get_user_name(user.uid)
 
     return render(request, 'mccme/users_ru.html', {
                   'users': users
