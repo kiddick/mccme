@@ -1,0 +1,32 @@
+<!doctype HTML>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <title>{{user}} info</title>
+</head>
+   
+<body>
+{% load user_filter %}
+
+
+<table class='table table-striped'>
+    <thead>
+        <tr>
+            <th>Users</th>
+            <th>LINK</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% for user in users %}
+            <td>{{user|_get:'uid'}}</td>
+            <td><a href="http://188.166.120.173/mccme/uidx/11083={{user|_get:'pid'}}/?page=1">LINK</a><td>
+
+        {% endfor %}
+    </tbody>
+</table>
+</body>
