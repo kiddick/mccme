@@ -10,6 +10,8 @@ import datetime
 from itertools import chain
 import loadme
 import statsloaderx
+
+from django.db import models
 from mccme.models import Problem, UserProfile, UserProblems
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -294,7 +296,7 @@ def success_stats(request, uid):
     bproblems = UserProblems.objects.all().filter(uid=uid)
     timelist = [p.timestamp for p in bproblems]
     for p in sproblems:
-        if datetime.datetime(p.timestamp) not in timelist:
+        if models.DateTimeField(p.timestamp) not in timelist:
             cpromlem = UserProblems(uid=uid, plabel=p.label, timestamp=p.timestamp)
             cpromlem.save()
     # UserProblems.objects.all().filter(uid=uid))
