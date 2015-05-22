@@ -293,7 +293,8 @@ def ex_users(request):
                     })
 
 def success_stats(request, uid):
-    timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+    timezone.now()
+    # timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     sproblems = statsloaderx.collect_user_total_success(uid, 75, 100)
     bproblems = UserProblems.objects.all().filter(uid=uid)
     timelist = [p.timestamp for p in bproblems]
