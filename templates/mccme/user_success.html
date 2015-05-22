@@ -7,7 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <title>{{user}} info</title>
+    <title>stats info</title>
 </head>
    
 <body>
@@ -25,9 +25,9 @@
     <tbody>
         {% for problem in success_problems %}
            <tr>
-                <td>{{user|_get:'uid'}}</td>
-                <td>{{user|_get:'label'}}</td>
-                <td>{{user|_get:'timestamp'}}</td>
+                <td>{{problem|_get:'uid'}}</td>
+                <td>{{problem|_get:'label'}}</td>
+                <td>{{problem|_get:'timestamp'}}</td>
            </tr>
         {% endfor %}
     </tbody>
