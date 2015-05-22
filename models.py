@@ -7,6 +7,11 @@ class Problem(models.Model):
     def __unicode__(self):
         return '#{} - {}'.format(self.pid, self.submits)
 
+class UserProblems(models.Model):
+    uid = models.IntegerField(default=0)
+    plabel = models.CharField(max_length=300, default='noname')
+    timestamp = models.DateTimeField()
+
 class UserProfile(models.Model):
     uid = models.IntegerField(default=0)
     uname = models.CharField(max_length=200, default='noname')

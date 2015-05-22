@@ -9,7 +9,7 @@ import os
 from itertools import chain
 import loadme
 import statsloaderx
-from mccme.models import Problem, UserProfile
+from mccme.models import Problem, UserProfile, UserProblems
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #from pre_test import *
@@ -289,4 +289,9 @@ def ex_users(request):
                     })
 
 def success_stats(request, uid):
-    return HttpResponse('test -> ' + str(uid))
+    sproblems = statsloaderx.collect_user_total_success(uid, 75, 100)
+    for p in sproblems:
+        cpromlem = UserProblems(uid=uid, plabel=p.label, timestamp=p.timestamp)
+        cpromlem.save()
+
+    return HttpResponse('test -> ' + str(uid) + '\n' + UserProblems.objects.all().filter(uid=uid))
