@@ -295,6 +295,6 @@ def success_stats(request, uid):
         cpromlem.save()
     # UserProblems.objects.all().filter(uid=uid))
     # return HttpResponse('test -> ' + str(uid) + '\n' + str(UserProblems.objects.all().filter(uid=uid)))
-    return render(request, 'mccme/user_sucess.html', {
+    return render(request, 'mccme/user_success.html', {
                   'success_problems': UserProblems.objects.all().filter(uid=uid)
                  })
