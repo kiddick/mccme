@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from collections import OrderedDict
 import operator
 import os
+import datetime
 from itertools import chain
 import loadme
 import statsloaderx
@@ -291,13 +292,13 @@ def ex_users(request):
 def success_stats(request, uid):
     sproblems = statsloaderx.collect_user_total_success(uid, 75, 100)
     bproblems = UserProblems.objects.all().filter(uid=uid)
-    timelist = [str(p.timestamp) for p in bproblems]
+    timelist = [p.timestamp for p in bproblems]
     for p in sproblems:
-        if p.timestamp not in timelist:
+        if datetime.datetime(p.timestamp) not in timelist:
             cpromlem = UserProblems(uid=uid, plabel=p.label, timestamp=p.timestamp)
             cpromlem.save()
     # UserProblems.objects.all().filter(uid=uid))
     # return HttpResponse('test -> ' + str(uid) + '\n' + str(UserProblems.objects.all().filter(uid=uid)))
     return render(request, 'mccme/user_success.html', {
-                  'success_problems': bproblems
+                  'success_problems': UserProblems.objects.all().filter(uid=uid)
                  })
