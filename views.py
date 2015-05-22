@@ -300,7 +300,8 @@ def success_stats(request, uid):
     # timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     sproblems = statsloaderx.collect_user_total_success(uid, 75, 100)
     bproblems = UserProblems.objects.all().filter(uid=uid)
-    timelist = [utc.localize(p.timestamp) for p in bproblems]
+    timelist = [p.timestamp for p in bproblems]
+    # timelist = [utc.localize(p.timestamp) for p in bproblems]
     for p in sproblems:
         if utc.localize(datetime.datetime.strptime(p.timestamp, "%Y-%m-%d %H:%M:%S")) not in timelist:
             cpromlem = UserProblems(uid=uid, plabel=p.label, timestamp=p.timestamp)
