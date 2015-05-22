@@ -247,5 +247,5 @@ def collect_user_total_success(_uid, _num_threads, _pc):
 
 # print get_user_name(99669)
 
-print collect_user_total_success(11083, 75, 100)
+# print collect_user_total_success(11083, 75, 100)
 #####################
