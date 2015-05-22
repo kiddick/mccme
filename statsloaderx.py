@@ -151,12 +151,14 @@ def collect_user_info(_uid, _num_threads, _pc):
     print 'total problems:', tp
     result_pages = [el[0] for el in loadme.load(get_url_range(_uid, _pc), _num_threads)]
     user_submits = sorted([item for subl in [MixParser(page).parse() for page in result_pages] for item in subl], key=operator.attrgetter('timestamp'))
+    print len([p for p in user_submits if p.status == 'OK'])
     print len(user_submits)
     print len(unique_problems(user_submits))
     ds = get_dict_stats(user_submits)
     print ds
     print len([pn for pn in ds.keys() if not ds[pn][1]])
-    with open( './stats/' + str(_uid) + 's.txt', 'w') as outm:
+    print unique_problems(user_submits)
+    with open( '__' + str(_uid) + 's.txt', 'w') as outm:
         outm.write(str(tp) + ': '  + str(len(user_submits)) + '\n')
         # for p in user_submits:
         for p in unique_problems(user_submits):
@@ -221,6 +223,19 @@ def get_user_success_info(_uid, _num_threads, _pc):
     # print in_progress
     return solved, in_progress, tp
 
+def collect_user_total_success(_uid, _num_threads, _pc):
+    tp = get_last_page(_uid, 1)
+    # print 'total problems:', tp
+    result_pages = [el[0] for el in loadme.load(get_url_range(_uid, _pc), _num_threads)]
+    user_submits = sorted([item for subl in [MixParser(page).parse() for page in result_pages] for item in subl], key=operator.attrgetter('timestamp'))
+    # print len([p for p in user_submits if p.status == 'OK'])
+    # print len(user_submits)
+    # with open( '__' + str(_uid) + 's.txt', 'w') as outm:
+        # outm.write(str(tp) + ': '  + str(len([p for p in user_submits if p.status == 'OK'])) + '\n')
+        # for p in [p for p in user_submits if p.status == 'OK']:
+          # outm.write(str(p) + '\n')
+    return [p for p in user_submits if p.status == 'OK']
+
 
 # for u in xrange(100, 200):
 #     collect_user_info(u, 75, 100)
@@ -228,6 +243,9 @@ def get_user_success_info(_uid, _num_threads, _pc):
 # collect_user_info(99669, 75, 100)
 #print get_user_success_info(99669, 75, 100)
 # collect_user_info(8732, 75, 100)
+# collect_user_info(8732, 75, 100)
 
 # print get_user_name(99669)
+
+print collect_user_total_success(11083, 75, 100)
 #####################
