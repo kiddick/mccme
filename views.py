@@ -294,4 +294,4 @@ def success_stats(request, uid):
         cpromlem = UserProblems(uid=uid, plabel=p.label, timestamp=p.timestamp)
         cpromlem.save()
 
-    return HttpResponse('test -> ' + str(uid) + '\n' + UserProblems.objects.all().filter(uid=uid))
+    return HttpResponse('test -> ' + str(uid) + '\n' + str(UserProblems.objects.all().filter(uid=uid)))
