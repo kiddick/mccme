@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
+import pytz
 
 from collections import OrderedDict
 import operator
@@ -293,7 +294,9 @@ def ex_users(request):
                     })
 
 def success_stats(request, uid):
-    now = timezone.now()
+    utc = pytz.UTC
+    now = utc.localize(datetime.datetime.now())
+    # now = timezone.now()
     # timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     sproblems = statsloaderx.collect_user_total_success(uid, 75, 100)
     bproblems = UserProblems.objects.all().filter(uid=uid)
