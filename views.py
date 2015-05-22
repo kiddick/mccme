@@ -12,6 +12,37 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #from pre_test import *
 
+class Problem(object):
+    def __init__(self, num, solver, label, timestamp, lang, status):
+        self.num = num
+        self.solver = solver
+        self.label = label
+        self.timestamp = timestamp
+        self.lang = lang
+        self.status = self.get_status(status)
+    def __str__(self):
+        return '# ' + str(self.num) + '|' + \
+                ' label:' + str(self.label) + '|' + \
+                ' status: ' + self.status + '|' + \
+                ' date: ' + self.timestamp
+    def get_status(self, status):
+        if status == 'OK':
+            return status
+        elif status == 'Частичное решение':
+            return 'partly'
+        elif status == 'Ошибка компиляции':
+            return 'ce'
+        elif status == 'Неправильный ответ':
+            return 'wrong'
+        elif status == 'Ошибка во время выполнения программы':
+            return 're'
+        elif status == 'Превышено максимальное время работы':
+            return 'limit'
+        elif status == 'Неправильный формат вывода':
+            return 'wo'
+        else:
+            return 'unk'
+
 def test(request):
     return HttpResponse('Hello World')
 
@@ -254,3 +285,6 @@ def ex_users(request):
     return render(request, 'mccme/users_ru.html', {
                   'users': users
                     })
+
+def success_stats(request, uid):
+    return HttpResponse('test -> ' + str(uid))
