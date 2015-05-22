@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #from pre_test import *
 
-class Problem(object):
+class ProblemByUser(object):
     def __init__(self, num, solver, label, timestamp, lang, status):
         self.num = num
         self.solver = solver
