@@ -1,4 +1,5 @@
 *.pyc
 *.log
 plist.txt
-management/commands/out.txt
+mccme/management/commands/out.txt
+*.db
