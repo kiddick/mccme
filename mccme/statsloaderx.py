@@ -9,39 +9,51 @@ import logging
 
 import loadme
 
+
 logging.basicConfig(filename='statsloader.log', level=logging.DEBUG)
 
 
-def get_last_page(_id, _pc):
-    target_url = 'http://informatics.mccme.ru/moodle/ajax/ajax.php?problem_id=0' + \
-        '&objectName=submits' + \
-        '&group_id=0' + \
-        '&user_id=' + str(_id) + \
-        '&status_id=-1' + \
-        '&lang_id=-1' + \
-        '&count=' + str(_pc) + \
-        '&with_comment=' + \
-        '&statement_id=0' + \
-        '&action=getPageCount'
-    data = requests.get(target_url, headers={'User-Agent': 'Mozilla/5.0'})
+ENDPOINT = 'http://informatics.mccme.ru/moodle/ajax/ajax.php?{}'
+
+
+def get_last_page(uid, page_count):
+    params = {
+        'problem_id': 0,
+        'objectName': 'submits',
+        'group_id': 0,
+        'user_id': uid,
+        'status_id': -1,
+        'lang_id': -1,
+        'count': page_count,
+        'with_comment': '',
+        'statement_id': 0,
+        'action': 'getPageCount'
+    }
+    data = requests.get(
+        ENDPOINT.format(requests.compat.urlencode(params)),
+        headers={'User-Agent': 'Mozilla/5.0'}
+    )
     return int(re.findall(r'\d+', str(data.text))[0])
 
 
-def get_url_range(_id, _pc):
+def get_url_range(uid, page_count):
     url_range = []
-    for page in xrange(get_last_page(_id, _pc)):
-        target_url = 'http://informatics.mccme.ru/moodle/ajax/ajax.php?problem_id=0' + \
-            '&group_id=0' + \
-            '&user_id=' + str(_id) + \
-            '&lang_id=-1' + \
-            '&status_id=-1' + \
-            '&statement_id=0' + \
-            '&objectName=submits' + \
-            '&count=' + str(_pc) + \
-            '&with_comment=' + \
-            '&page=' + str(page) + \
-            '&action=getHTMLTable'
-        url_range.append(target_url)
+    params = {
+        'problem_id': 0,
+        'group_id': 0,
+        'user_id': uid,
+        'lang_id': -1,
+        'status_id': -1,
+        'statement_id': 0,
+        'objectName': 'submits',
+        'count': page_count,
+        'with_comment': '',
+        'action': 'getHTMLTable'
+    }
+    for page in xrange(get_last_page(uid, page_count)):
+        params['page'] = page
+        url_range.append(
+            ENDPOINT.format(requests.compat.urlencode(params)))
     return url_range
 
 
@@ -129,8 +141,8 @@ class MixParser(object):
         problems_info = list()
         try:
             data = self.encoding().split('\n')[2:]
-            logging.debug('Parsing in MixParser.')
-            logging.debug(data)
+            # logging.debug('Parsing in MixParser.')
+            # logging.debug(data)
         except Exception, e:
             print e
             # print e.__str__().split()[8][:-1]

@@ -10,6 +10,8 @@ import operator
 import os
 import datetime
 from itertools import chain
+import logging
+
 import loadme
 import statsloaderx
 
@@ -223,9 +225,15 @@ def multi_stats(request, uid):
             cuser.solved_problems.clear()
             cuser.unsolved_problems.clear()
             for ep in solved:
-                cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+                try:
+                    cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+                except:
+                    logging.debug(str(ep))
             for ep in unsolved:
-                cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+                try:
+                    cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+                except:
+                    logging.debug(str(ep))
             cuser.save()
     else:
         data_stats = statsloaderx.get_user_success_info(int(uid), 75, 100)
@@ -234,9 +242,15 @@ def multi_stats(request, uid):
         cuser = UserProfile(uid=uid, tcount=total_count)
         cuser.save()
         for ep in solved:
-            cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            try:
+                cuser.solved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            except:
+                logging.debug(str(ep))
         for ep in unsolved:
-            cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            try:
+                cuser.unsolved_problems.add(Problem.objects.all().filter(pid=ep)[0])
+            except:
+                logging.debug(str(ep))
         cuser.save()
     # all_problems = {problem: 'unsolved' for problem in Problem.objects.all()}
     # for problem in cuser.solved_problems.all():
