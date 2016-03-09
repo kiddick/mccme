@@ -12,7 +12,8 @@ class Command(BaseCommand):
     #     parser.add_argument('poll_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        with open(os.path.join('/home/django/django_project/mccme','plist.txt'), 'r') as plist:
+        print os.path.join(os.path.dirname(__file__))
+        with open(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'plist.txt'), 'r') as plist:
             content = plist.readlines()
         print len(content)
 
@@ -39,7 +40,7 @@ class Command(BaseCommand):
         for r in loadme.load(urlrangex, 75):
             stats[int(r[1])] = int(r[0].split()[2][:-2])
         print len(stats)
-        with open(os.path.join('/home/django/django_project/mccme/management/commands', 'out.txt'), 'w') as sto:
+        with open(os.path.join(os.path.join(os.path.dirname(__file__)), 'out.txt'), 'w') as sto:
             sto.write(str(stats))
 
         problems_in_db = Problem.objects.all()
